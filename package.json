@@ -1,0 +1,45 @@
+{
+  "name": "localforge",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "check": "tsc -b",
+    "test": "vitest run",
+    "tauri": "tauri",
+    "desktop": "bash scripts/desktop.sh dev",
+    "bundle": "bash scripts/desktop.sh build --bundles app",
+    "verify:ollama": "node scripts/verify-ollama.mjs",
+    "format": "prettier --write src tests/*.test.ts scripts/*.mjs *.json vite.config.ts src-tauri/*.json src-tauri/capabilities/*.json",
+    "verify:fallback": "node scripts/verify-fallback.mjs",
+    "fixture:reset": "node scripts/reset-fixture.mjs",
+    "verify:context": "node scripts/verify-context.mjs",
+    "verify:modes": "node scripts/verify-modes.mjs",
+    "verify:completed-edit": "node scripts/verify-completed-edit.mjs"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.8.0",
+    "diff": "^8.0.2",
+    "highlight.js": "^11.11.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.8.4",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.3",
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.2",
+    "vite": "^7.1.5",
+    "vitest": "^5.0.5"
+  }
+}

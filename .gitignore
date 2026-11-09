@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src-tauri/target/
+.toolchain/
+.DS_Store
+*.log
+
+*.tsbuildinfo
+
+.localforge-recovery/

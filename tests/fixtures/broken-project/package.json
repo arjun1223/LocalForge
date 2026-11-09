@@ -1,0 +1,1 @@
+{"name":"localforge-repair-fixture","private":true,"scripts":{"build":"node --check src.js","test":"node --test test.cjs"}}

@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+if [ -x "$PWD/.toolchain/cargo/bin/cargo" ]; then
+  export CARGO_HOME="$PWD/.toolchain/cargo"
+  export RUSTUP_HOME="$PWD/.toolchain/rustup"
+  export PATH="$CARGO_HOME/bin:$PATH"
+fi
+exec npm run tauri -- "$@"
