@@ -7,7 +7,7 @@ A real macOS desktop application for chatting with local Ollama models and runni
 Open `src-tauri/target/debug/bundle/macos/LocalForge.app` after a debug package, or `src-tauri/target/release/bundle/macos/LocalForge.app` after a release package.
 
 ```sh
-cd /Users/arjuntyagi/Documents/Playground/LocalForge
+cd LocalForge
 npm install
 npm run desktop          # native development app
 npm run bundle           # release macOS .app
