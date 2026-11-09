@@ -1,19 +1,47 @@
-# LocalForge
+<p align="center">
+  <img src="src-tauri/icons/terrain-lines.png" width="112" alt="LocalForge app icon">
+</p>
+<h1 align="center">LocalForge</h1>
+<p align="center">Local AI chat and an approval-based coding agent for your Mac.</p>
+<p align="center">
+  <a href="https://github.com/arjun1223/LocalForge/releases/latest"><img alt="Download LocalForge for macOS" src="https://img.shields.io/badge/Download_for_macOS-Apple_silicon-6655D5?style=for-the-badge&amp;logo=apple&amp;logoColor=white"></a>
+</p>
+<p align="center">macOS 13+ · Apple silicon · Ollama · No account or telemetry</p>
 
-A real macOS desktop application for chatting with local Ollama models and running an approval-based coding agent. React + strict TypeScript + Tauri 2 + Rust. Apple Silicon supported. No cloud backend, accounts, telemetry, or model-specific source code.
+## Download and install
 
-## Run
+1. Download the Apple silicon DMG from [the latest release](https://github.com/arjun1223/LocalForge/releases/latest).
+2. Open the disk image and drag **LocalForge.app** into **Applications**.
+3. Start Ollama, install a model, then open LocalForge and select it.
 
-Open `src-tauri/target/debug/bundle/macos/LocalForge.app` after a debug package, or `src-tauri/target/release/bundle/macos/LocalForge.app` after a release package.
+The release includes `SHA256SUMS.txt` for download verification. The app is ad-hoc signed and is not Apple-notarized. Intel Macs are not supported by this download.
+
+## Features
+
+| Feature | What you get |
+| --- | --- |
+| Local chat | Stream responses from installed Ollama models |
+| Code Agent | Inspect projects and propose changes for approval |
+| Workspace tools | Search, browse, and preview source files and Git changes |
+| Attachments | Drop text and code files into the composer |
+| Progress | Live response timer, action log, and command output |
+
+## Build from source
+
+Install Node.js 22+, Rust, and Xcode Command Line Tools, then:
 
 ```sh
+git clone https://github.com/arjun1223/LocalForge.git
 cd LocalForge
-npm install
-npm run desktop          # native development app
-npm run bundle           # release macOS .app
+npm ci
+npm run desktop   # development
+npm run bundle    # release app
 ```
 
-Rust is required to compile. `scripts/desktop.sh` automatically uses the repository-local `.toolchain` if present, otherwise your normal Cargo installation. Xcode Command Line Tools and Node 22+ are sufficient for this project. Development dependencies are needed only for compilation, not to run the packaged app. The app is locally built and ad-hoc signed, not distributed with an Apple Developer certificate or notarization.
+The release app is built at `src-tauri/target/release/bundle/macos/LocalForge.app`.
+See [RELEASING.md](RELEASING.md) for packaging and checks.
+
+## First-time setup
 
 Start the installed Ollama app (or `ollama serve` bound to loopback). LocalForge defaults to `http://localhost:11434`. It discovers models from `/api/tags`, gets capabilities from `/api/show`, and streams `/api/chat`. Install another model in Ollama and click Refresh; no source changes are needed. Missing models and an unavailable server produce actionable UI errors.
 
@@ -83,3 +111,7 @@ npm run verify:completed-edit
 The deterministic TypeScript agent tests use test doubles to exercise failure/retry/protocol handling; they are not evidence of a model solving a task. `verify:ollama` makes actual local API requests against a dynamically discovered model. Native tests exercise real temporary filesystem operations and safety behavior. `tests/fixtures/broken-project` is a disposable repair-test project. The live test repaired it; run `npm run fixture:reset` to restore its deliberate syntax error before repeating the scenario. The final live verification report is in `VERIFICATION.md`.
 
 API references used during implementation: [Tauri IPC channels](https://v2.tauri.app/develop/calling-frontend/), [Ollama tool calling](https://docs.ollama.com/capabilities/tool-calling).
+
+## Updates and feedback
+
+See [Releases](https://github.com/arjun1223/LocalForge/releases) and the [changelog](CHANGELOG.md). [Report bugs](https://github.com/arjun1223/LocalForge/issues/new) with your macOS version, Ollama model, and steps to reproduce. Remove private prompts, files, and credentials from reports.
