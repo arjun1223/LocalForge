@@ -1,3 +1,4 @@
+import { version } from "../package.json";
 import { useLocalForge } from "./hooks/useLocalForge";
 import { Sidebar } from "./components/Sidebar";
 import { Topbar } from "./components/Topbar";
@@ -112,7 +113,7 @@ export default function App() {
             <Check size={11} />
             {active?.changes.length ?? 0} files changed
           </button>
-          <span>LocalForge 0.1</span>
+          <span>LocalForge {version}</span>
         </footer>
       </main>
       {settingsOpen && (
