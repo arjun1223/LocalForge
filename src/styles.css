@@ -1739,3 +1739,40 @@ pre {
 .attachment-preview pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .error-banner > span { white-space: pre-line; }
 .message-body > header { flex-wrap: wrap; }
+
+.history-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 12px 6px;
+  padding: 0 7px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--muted);
+}
+.history-search:focus-within {
+  border-color: var(--accent);
+}
+.history-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 6px 0;
+  background: transparent;
+  outline: none;
+}
+.history-search input::-webkit-search-cancel-button {
+  display: none;
+}
+.history-search button {
+  padding: 2px;
+}
+.history-copy-status {
+  margin: 0;
+  padding: 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.history-copy-status:empty {
+  display: none;
+}

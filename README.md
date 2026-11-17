@@ -21,6 +21,7 @@ The release includes `SHA256SUMS.txt` for download verification. The app is ad-h
 | Feature | What you get |
 | --- | --- |
 | Local chat | Stream responses from installed Ollama models |
+| Conversation history | Search past messages and copy a chat as Markdown |
 | Code Agent | Inspect projects and propose changes for approval |
 | Workspace tools | Search, browse, and preview source files and Git changes |
 | Attachments | Drop text and code files into the composer |

@@ -1,3 +1,8 @@
+import { useMemo, useState } from "react";
+import {
+  conversationMarkdown,
+  filterConversations,
+} from "../history/conversations";
 import type { LocalForgeController } from "../hooks/useLocalForge";
 import {
   Plus,
@@ -9,6 +14,9 @@ import {
   ShieldCheck,
   Pencil,
   Trash2,
+  Copy,
+  Search,
+  X,
 } from "lucide-react";
 export function Sidebar({ ui }: { ui: LocalForgeController }) {
   const {
@@ -25,6 +33,22 @@ export function Sidebar({ ui }: { ui: LocalForgeController }) {
     openWorkspace,
     openConversation,
   } = ui;
+  const [query, setQuery] = useState("");
+  const [notice, setNotice] = useState("");
+  const visible = useMemo(
+    () => filterConversations(data.conversations, query),
+    [data.conversations, query],
+  );
+  const active = data.conversations.find((c) => c.id === data.activeId);
+  async function copyConversation() {
+    if (!active) return;
+    try {
+      await navigator.clipboard.writeText(conversationMarkdown(active));
+      setNotice("Conversation copied as Markdown.");
+    } catch {
+      setNotice("Could not copy the conversation.");
+    }
+  }
   return (
     <>
       {sidebar && (
@@ -56,9 +80,38 @@ export function Sidebar({ ui }: { ui: LocalForgeController }) {
             </button>
           </div>
           <div className="sidebar-section-label">
-            CONVERSATIONS<span>{data.conversations.length}</span>
+            CONVERSATIONS
+            <span>
+              {query.trim()
+                ? `${visible.length} / ${data.conversations.length}`
+                : data.conversations.length}
+            </span>
           </div>
-          <nav className="history">
+          {!!data.conversations.length && (
+            <div className="history-search">
+              <Search size={14} aria-hidden="true" />
+              <input
+                type="search"
+                aria-label="Search conversations"
+                placeholder="Search conversations…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              {query && (
+                <button
+                  title="Clear conversation search"
+                  aria-label="Clear conversation search"
+                  onClick={() => setQuery("")}
+                >
+                  <X size={13} />
+                </button>
+              )}
+            </div>
+          )}
+          <nav className="history" aria-label="Conversations">
+            {!!data.conversations.length && !visible.length && (
+              <p className="sidebar-empty">No matching conversations.</p>
+            )}
             {!data.conversations.length && (
               <p className="sidebar-empty">
                 Your conversations live here.
@@ -66,7 +119,7 @@ export function Sidebar({ ui }: { ui: LocalForgeController }) {
                 Always on this Mac.
               </p>
             )}
-            {data.conversations.map((c) => (
+            {visible.map((c) => (
               <div
                 key={c.id}
                 className={`history-item ${c.id === data.activeId ? "active" : ""}`}
@@ -156,6 +209,15 @@ export function Sidebar({ ui }: { ui: LocalForgeController }) {
             </button>
           </div>
           <div className="sidebar-footer">
+            <p role="status" className="history-copy-status">
+              {notice}
+            </p>
+            <button
+              disabled={busy || !active?.messages.length}
+              onClick={() => void copyConversation()}
+            >
+              <Copy size={15} /> Copy chat as Markdown
+            </button>
             <div className="local-note">
               <ShieldCheck size={14} />
               <span>
